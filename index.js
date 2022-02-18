@@ -1,39 +1,33 @@
 import * as fs from 'fs'; 
 import chalk from 'chalk';
 
-function catchError(err){
-  throw new Error(chalk.redBright(err.code))
+function elicitLinks(text){
+  const regex = /\[([^\]]*)\]\((https?\:\/\/[^\s]*)\)/gm;
+  const arrResults = [];
+  let tmp;
+
+  while((tmp = regex.exec(text)) !== null){
+    arrResults.push({ [tmp[1]]: tmp[2] }) 
+  }
+ 
+  return arrResults.length === 0 ? 'This file doesn`t have any link' : arrResults;
 }
 
-async function getFile(pathFile){
-  const encoding = 'utf-8';
-  try {
-    const text = await fs.promises.readFile(pathFile, encoding)
-    return console.log(chalk.greenBright(text));
+function catchError(err){
+  throw new Error(chalk.redBright(err.code));
+}
 
-  } catch (err){
+async function getArchive(pathFile){
+  const encoding = 'utf-8';
+
+  try {
+    const textLinks = await fs.promises.readFile(pathFile, encoding)
+    
+    return elicitLinks(textLinks)
+  } catch {
     catchError(err)
   }
-  console.log(chalk.greenBright(text))
 }
 
-getFile('./arquivos/texto1.md')
-
-
-// function getFile(pathFile){
-//   const encoding = "utf-8";
-//   fs.readFile(pathFile, encoding, (err, text) => {
-//     if(err) return  catchError(err);
-
-//     console.log(chalk.greenBright(text))
-//   })
-// }
-
-// function getFile(pathFile){
-//   const endoing = 'utf-8';
-
-//   fs.promises
-//     .readFile(pathFile, endoing)
-//     .then((text) => console.log(chalk.greenBright(text)))
-//     .catch((err) => catchError(err))
-// }
+export default getArchive;
+//getArchive('./arquivos/texto1.md')

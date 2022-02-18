@@ -101,3 +101,76 @@ Além do constructor Promisse, geralmente usado quando não temos uma função d
     2. Promessas que não estão *fulfilled* nem *rejected* estão *pending* (pendentes). Ou seja, ainda não é possível saber o resultado final porque o processamento ainda não foi concluído.
     3. Após a finalização do processamento, a promessa passa para o estado de *settled* (concluída), independente do resultado.
     4. Uma vez que a promessa está *settled* seu resultado não se altera mais. Ou seja, uma promessa que se concluiu como *rejected* não muda mais para o estado de *fulfilled* e vice-versa.
+
+<br><br>
+
+# Regex - Expressões regulares
+
+
+Serve para identificar padrões em strings, e manipular como você quiser.
+
+[regex101: build, test, and debug regex](https://regex101.com/)
+
+Ao criar uma classe, dizemos que queremos que procure tais letras, mas n que sejam somente em sequência `[abc]`
+
+`[abc]` Pegará tudo dentro do texto que seja a | b | c
+
+`[^abc]` pegará tudo que não for  a | b | c.
+
+Para pegar caracteres especiais como [, precisamos utilizar uma barra invertida antes. `\[`
+
+- `\w` → pega toda estrutura que seja reconhecida como palavra
+- * → pegue tudo do 0, até o final
+- `?` → caractere opicional
+
+<br><br>
+
+| input | output |
+| --- | --- |
+| \[[\w]*\] | Pega elementos [word]  |
+| \[ | Elemento colchetes [  |
+| [\w]* | Pega todas palavras dentro de [  |
+| \] | Fecha a expressão. |
+
+<br><br>
+
+`\[\w\s*]\]` → pega tudo que for palavra que possuir espaço em branco
+
+Outra forma `\[[^]]*\]`
+
+Segunda parte, pegando o modelo (https://qualquercoisa) ou (http://qualquercoisa)
+
+`\(https?\:\/\/[^$#\s].[^\s]*\)`
+
+<br><br>
+
+| s? | s é opicional |
+| --- | --- |
+| [^$#\s] | pegue todos os caracteres que não sejam desse jeito. |
+| .[^\s] | Ande até encontrar um espaço branco |
+| *\) | Faça isso até encontrar uma ) |
+
+<br>
+
+Expressão completa para pegar links em markdown: `\[([^\]]*)\]\((https?\:\/\/[^\s]*)\)`
+
+Ao colocar `()` englobando tudo estamos criando grupos.
+
+Em javascript para adicionar uma espessão regex, ela deve estar entre / /
+
+```jsx
+const regex = /\[([^\]]*)\]\((https?\:\/\/[^\s]*)\)/gm;
+//gm -> global multi line
+
+//output:
+
+/*
+[
+  '[FileList](https://developer.mozilla.org/pt-BR/docs/Web/API/FileList)',
+  '[<input>](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/Input)',
+  '[DataTransfer](https://developer.mozilla.org/pt-BR/docs/Web/API/DataTransfer)',
+  '[HTMLCanvasElement](https://devgeloper.mozilla.org/pt-BR/docs/Web/API/HTMLCanvasElement)',
+  '[Implementation notes](https://developer.mozilla.org/pt-BR/docs/Web/API/File#impletation_notes)'
+]
+*/
+```
