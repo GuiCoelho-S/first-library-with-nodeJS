@@ -29,5 +29,5 @@ async function getArchive(pathFile){
   }
 }
 
-export default getArchive;
+export { getArchive };
 //getArchive('./arquivos/texto1.md')
