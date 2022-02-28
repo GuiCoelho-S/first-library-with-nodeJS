@@ -1,5 +1,4 @@
-import * as fs from 'fs'; 
-import chalk from 'chalk';
+const fs = require('fs');
 
 function elicitLinks(text){
   const regex = /\[([^\]]*)\]\((https?\:\/\/[^\s]*)\)/gm;
@@ -14,7 +13,7 @@ function elicitLinks(text){
 }
 
 function catchError(err){
-  throw new Error(chalk.redBright(err.code));
+  throw new Error(err.code);
 }
 
 async function getArchive(pathFile){
@@ -29,5 +28,5 @@ async function getArchive(pathFile){
   }
 }
 
-export { getArchive };
+module.exports = getArchive;
 //getArchive('./arquivos/texto1.md')

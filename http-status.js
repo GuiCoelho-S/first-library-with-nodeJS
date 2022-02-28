@@ -1,5 +1,4 @@
-import chalk from "chalk";
-import fetch from "node-fetch";
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 function handleErrors(err){
   throw new Error(err.message);
@@ -11,7 +10,7 @@ async function checkstatus(urlArrays){
     const statusArray = await Promise
     .all(urlArrays
       .map(async url => {
-        console.log(chalk.greenBright(url))
+        console.log(url); 
         const res = await fetch(url);
         return `${res.status} - ${res.statusText}`;
   }))
@@ -39,4 +38,4 @@ async function validateUrl(linksArray){
   return results
 }
 
-export { validateUrl }
+module.exports = validateUrl;
